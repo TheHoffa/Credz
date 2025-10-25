@@ -1,3 +1,4 @@
+Clear-Host
 # Export dir
 $exportDir = "$env:temp\SomeStuff"
 
